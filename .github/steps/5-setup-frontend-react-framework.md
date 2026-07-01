@@ -28,6 +28,7 @@ In this step, you will:
 > - Use API endpoints under:
 >   https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/[component]/
 > - Add a safe fallback if `VITE_CODESPACE_NAME` is unset to avoid `https://undefined-8000...` URLs
+> - A shared config/helper for the base URL is okay, as long as each component still references its matching `/api/[component]/` route
 > - Keep compatibility with paginated and array responses
 > ```
 
