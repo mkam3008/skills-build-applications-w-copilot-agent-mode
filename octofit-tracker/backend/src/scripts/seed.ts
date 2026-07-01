@@ -4,17 +4,15 @@
  * Usage: npx ts-node src/scripts/seed.ts
  */
 import mongoose from 'mongoose';
+import { connectDatabase } from '../config/database';
 import { User } from '../models/User';
 import { Team } from '../models/Team';
 import { Activity } from '../models/Activity';
 import { Leaderboard } from '../models/Leaderboard';
 import { Workout } from '../models/Workout';
 
-const MONGO_URI = 'mongodb://localhost:27017/octofit_db';
-
 async function seed() {
-  await mongoose.connect(MONGO_URI);
-  console.log('Connected to octofit_db');
+  await connectDatabase();
 
   // Clear existing data
   await Promise.all([
