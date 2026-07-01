@@ -1,0 +1,36 @@
+import express from 'express';
+import mongoose from 'mongoose';
+
+const app = express();
+const PORT = 8000;
+
+const codespaceName = process.env.CODESPACE_NAME;
+const baseUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : 'http://localhost:8000';
+
+app.use(express.json());
+
+// Allow requests from the frontend
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+});
+
+// MongoDB connection
+mongoose
+  .connect('mongodb://localhost:27017/octofit_db')
+  .then(() => console.log('Connected to MongoDB (octofit_db)'))
+  .catch((err) => console.error('MongoDB connection error:', err));
+
+// Health check
+app.get('/api/', (_req, res) => {
+  res.json({ message: 'OctoFit Tracker API is running', baseUrl });
+});
+
+app.listen(PORT, () => {
+  console.log(`OctoFit Tracker backend listening on port ${PORT}`);
+  console.log(`Base URL: ${baseUrl}`);
+});
