@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import connectDB from './database';
 import usersRouter from './routes/users';
 import teamsRouter from './routes/teams';
 import activitiesRouter from './routes/activities';
@@ -25,10 +25,7 @@ app.use((_req, res, next) => {
 });
 
 // MongoDB connection
-mongoose
-  .connect('mongodb://localhost:27017/octofit_db')
-  .then(() => console.log('Connected to MongoDB (octofit_db)'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+connectDB().catch((err) => console.error('MongoDB connection error:', err));
 
 // Health check
 app.get('/api/', (_req, res) => {
